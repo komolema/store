@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,10 @@ public class OrderService {
 
 	public List<Order> findAll() {
 		return orderRepository.findAll();
+	}
+
+	public Page<Order> findAll(Pageable pageable) {
+		return orderRepository.findAll(pageable);
 	}
 
 	public Order save(Order order) {

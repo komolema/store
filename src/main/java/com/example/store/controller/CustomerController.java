@@ -13,6 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +30,16 @@ public class CustomerController {
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
 
     @GetMapping
-    public List<CustomerDTO> getAllCustomers(@RequestParam(required = false) String name) {
+    public Page<CustomerDTO> getAllCustomers(@RequestParam(required = false) String name, @PageableDefault(size = 20) Pageable pageable) {
         log.debug("getAllCustomers called with name={}", name);
         if (name != null && !name.isBlank()) {
-            var results = customerService.findByNameSubstring(name);
-            log.info("search found {} customers for query={}", results.size(), name);
-            return customerMapper.customersToCustomerDTOs(results);
+            var results = customerService.findByNameSubstring(name, pageable);
+            log.info("search found page {} of customers for query={}", results.getNumber(), name);
+            return results.map(customerMapper::customerToCustomerDTO);
         }
-        var all = customerService.findAll();
-        log.info("returning {} customers (full list)", all.size());
-        return customerMapper.customersToCustomerDTOs(all);
+        var page = customerService.findAll(pageable);
+        log.info("returning page {} of customers (full list)", page.getNumber());
+        return page.map(customerMapper::customerToCustomerDTO);
     }
 
     @PostMapping

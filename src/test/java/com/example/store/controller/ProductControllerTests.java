@@ -17,6 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -60,11 +63,12 @@ class ProductControllerTests {
 
     @Test
     void testGetProducts() throws Exception {
-        when(productService.findAll()).thenReturn(List.of(product));
+        Page<Product> page = new PageImpl<>(List.of(product));
+        when(productService.findAll(org.mockito.ArgumentMatchers.any())).thenReturn(page);
 
         mockMvc.perform(get("/product"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$..description").value("Test Product"));
+                .andExpect(jsonPath("$.content[0].description").value("Test Product"));
     }
 
     @Test

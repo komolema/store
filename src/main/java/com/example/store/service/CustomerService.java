@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 @Service
@@ -28,6 +31,17 @@ public class CustomerService {
 
 	public List<Customer> findAll() {
 		return customerRepository.findAll();
+	}
+
+	public Page<Customer> findAll(Pageable pageable) {
+		return customerRepository.findAll(pageable);
+	}
+
+	public Page<Customer> findByNameSubstring(String query, Pageable pageable) {
+		if (query == null || query.isBlank()) {
+			return customerRepository.findAll(pageable);
+		}
+		return customerRepository.findByNameContainingIgnoreCase(query, pageable);
 	}
 
 	public Customer save(Customer customer) {

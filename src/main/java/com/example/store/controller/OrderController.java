@@ -12,6 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -25,11 +29,11 @@ public class OrderController {
     private static final Logger log = LoggerFactory.getLogger(OrderController.class);
 
     @GetMapping
-    public List<OrderDTO> getAllOrders() {
+    public Page<OrderDTO> getAllOrders(@PageableDefault(size = 20) Pageable pageable) {
         log.debug("getAllOrders called");
-        var all = orderService.findAll();
-        log.info("returning {} orders", all.size());
-        return orderMapper.ordersToOrderDTOs(all);
+        var page = orderService.findAll(pageable);
+        log.info("returning page {} of orders with {} items", page.getNumber(), page.getNumberOfElements());
+        return page.map(orderMapper::orderToOrderDTO);
     }
 
     @PostMapping
@@ -47,6 +51,7 @@ public class OrderController {
 
     @GetMapping("/{id}")
     public Optional<OrderDTO> getOrderById(@PathVariable Long id){
+        log.debug("getOrderById called id={}", id);
         return orderService.findById(id).map(orderMapper::orderToOrderDTO);
     }
 }

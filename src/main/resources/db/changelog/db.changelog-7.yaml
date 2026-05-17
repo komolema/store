@@ -1,0 +1,23 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-performance-indexes
+      author: junie
+      changes:
+        - createIndex:
+            tableName: customer
+            indexName: idx_customer_name
+            columns:
+              - column:
+                  name: name
+        - createIndex:
+            tableName: "order"
+            indexName: idx_order_description
+            columns:
+              - column:
+                  name: description
+        - createIndex:
+            tableName: product
+            indexName: idx_product_description
+            columns:
+              - column:
+                  name: description

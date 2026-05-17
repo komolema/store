@@ -19,6 +19,9 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.DockerClientFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
 import java.util.List;
 import java.util.Random;
 
@@ -141,8 +144,8 @@ public class ProductServiceIT {
 		product.getOrders().add(order);
 		product = productRepository.save(product);
 
-		List<Product> all = productService.findAll();
-		List<ProductDTO> dtos = productMapper.productsToProductDTOs(all);
+		Page<Product> page = productService.findAll(PageRequest.of(0, 10));
+		List<ProductDTO> dtos = productMapper.productsToProductDTOs(page.getContent());
 
 		assertThat(dtos).hasSize(1);
 		ProductDTO dto = dtos.get(0);

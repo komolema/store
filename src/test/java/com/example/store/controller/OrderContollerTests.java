@@ -3,8 +3,7 @@ package com.example.store.controller;
 import com.example.store.entity.Customer;
 import com.example.store.entity.Order;
 import com.example.store.mapper.CustomerMapper;
-import com.example.store.repository.CustomerRepository;
-import com.example.store.repository.OrderRepository;
+import com.example.store.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -37,10 +36,7 @@ class OrderControllerTests {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private OrderRepository orderRepository;
-
-    @MockitoBean
-    private CustomerRepository customerRepository;
+    private OrderService orderService;
 
     private Order order;
     private Customer customer;
@@ -59,8 +55,7 @@ class OrderControllerTests {
 
     @Test
     void testCreateOrder() throws Exception {
-        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderService.save(order)).thenReturn(order);
 
         mockMvc.perform(post("/order")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -72,11 +67,12 @@ class OrderControllerTests {
 
     @Test
     void testGetOrder() throws Exception {
-        when(orderRepository.findAll()).thenReturn(List.of(order));
+        org.springframework.data.domain.Page<Order> page = new org.springframework.data.domain.PageImpl<>(List.of(order));
+        when(orderService.findAll(org.mockito.ArgumentMatchers.any(org.springframework.data.domain.Pageable.class))).thenReturn(page);
 
         mockMvc.perform(get("/order"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$..description").value("Test Order"))
-                .andExpect(jsonPath("$..customer.name").value("John Doe"));
+                .andExpect(jsonPath("$.content[0].description").value("Test Order"))
+                .andExpect(jsonPath("$.content[0].customer.name").value("John Doe"));
     }
 }
