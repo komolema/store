@@ -3,6 +3,8 @@ package com.example.store.entity;
 import jakarta.persistence.*;
 
 import lombok.Data;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -16,4 +18,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Customer customer;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "orders")
+    private Set<Product> products = new HashSet<>();
 }

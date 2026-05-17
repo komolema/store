@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6-sample-products-and-associations
+      author: developer@example.com
+      changes:
+        - sqlFile:
+            path: db/changelog/products-and-associations.sql
+

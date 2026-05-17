@@ -21,7 +21,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomerController {
 
-    private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
     private final CustomerService customerService;
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);

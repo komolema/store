@@ -61,6 +61,7 @@ public class CustomerServiceIT {
 			registry.add("spring.datasource.username", () -> user == null ? "" : user);
 			registry.add("spring.datasource.password", () -> pass == null ? "" : pass);
 			registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+			registry.add("spring.sql.init.mode", () -> "never");
 			return;
 		}
 
@@ -84,6 +85,7 @@ public class CustomerServiceIT {
 			registry.add("spring.datasource.username", () -> "sa");
 			registry.add("spring.datasource.password", () -> "");
 			registry.add("spring.datasource.driver-class-name", () -> "org.h2.Driver");
+			registry.add("spring.sql.init.mode", () -> "never");
 		}
 	}
 

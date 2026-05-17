@@ -11,3 +11,5 @@ CREATE TABLE "order" (
                          customer_id BIGINT NOT NULL,
                          CONSTRAINT fk_customer FOREIGN KEY (customer_id) REFERENCES customer (id)
 );
+
+
