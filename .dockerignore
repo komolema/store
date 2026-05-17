@@ -1,0 +1,13 @@
+# Exclude Gradle, IDE, git metadata and build artifacts from the image build context
+.gradle
+/build
+/out
+/.idea
+/.vscode
+/.git
+**/.DS_Store
+**/node_modules
+**/target
+**/*.log
+/.github
+
