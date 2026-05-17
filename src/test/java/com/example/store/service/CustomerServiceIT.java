@@ -86,6 +86,7 @@ public class CustomerServiceIT {
 			registry.add("spring.datasource.password", () -> "");
 			registry.add("spring.datasource.driver-class-name", () -> "org.h2.Driver");
 			registry.add("spring.sql.init.mode", () -> "never");
+			registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
 		}
 	}
 

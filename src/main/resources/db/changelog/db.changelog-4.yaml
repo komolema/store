@@ -1,20 +1,3 @@
 databaseChangeLog:
-  - changeSet:
-      id: 4-create-product-table
-      author: developer@example.com
-      changes:
-        - createTable:
-            tableName: product
-            columns:
-              - column:
-                  name: id
-                  type: BIGSERIAL
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: description
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
+  # Schema tables (incl. product) created via schema.sql included in changelog-1; duplicate removed to fix H2/Liquibase tests
 
