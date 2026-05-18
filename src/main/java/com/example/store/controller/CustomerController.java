@@ -3,7 +3,6 @@ package com.example.store.controller;
 import com.example.store.dto.CustomerDTO;
 import com.example.store.entity.Customer;
 import com.example.store.mapper.CustomerMapper;
-import com.example.store.repository.CustomerRepository;
 import com.example.store.service.CustomerService;
 
 import lombok.RequiredArgsConstructor;
