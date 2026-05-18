@@ -26,9 +26,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OrderDTO'
+                $ref: '#/components/schemas/PageOrderDTO'
       operationId: getOrders
       description: Get all orders
     post:
@@ -77,9 +75,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomerDTO'
+                $ref: '#/components/schemas/PageCustomerDTO'
       operationId: getCustomers
       description: Get all customers
     post:
@@ -107,9 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ProductDTO'
+                $ref: '#/components/schemas/PageProductDTO'
       operationId: getProducts
       description: Get all products
     post:
@@ -149,6 +143,51 @@ paths:
       description: Get product by ID
 components:
   schemas:
+    PageOrderDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDTO'
+        totalPages:
+          type: integer
+        totalElements:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+    PageCustomerDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerDTO'
+        totalPages:
+          type: integer
+        totalElements:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
+    PageProductDTO:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDTO'
+        totalPages:
+          type: integer
+        totalElements:
+          type: integer
+        size:
+          type: integer
+        number:
+          type: integer
     OrderDTO:
       type: object
       properties:

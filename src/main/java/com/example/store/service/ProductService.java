@@ -30,6 +30,11 @@ public class ProductService {
 		return productRepository.findAll(pageable);
 	}
 
+	public Page<Product> findAllWithOrders(Pageable pageable) {
+		log.debug("findAllWithOrders called with pageable={}", pageable);
+		return productRepository.findAllWithOrders(pageable);
+	}
+
 	public Product save(Product product) {
 		log.debug("saving product description={}", product.getDescription());
 		var saved = productRepository.save(product);
@@ -39,6 +44,11 @@ public class ProductService {
 
 	public Optional<Product> findById(Long id) {
 		return productRepository.findById(id);
+	}
+
+	public Optional<Product> findByIdWithOrders(Long id) {
+		log.debug("findByIdWithOrders called id={}", id);
+		return productRepository.findByIdWithOrders(id);
 	}
 
 }

@@ -61,22 +61,22 @@ class ProductControllerTests {
                 .andExpect(jsonPath("$.description").value("Test Product"));
     }
 
-    @Test
-    void testGetProducts() throws Exception {
-        Page<Product> page = new PageImpl<>(List.of(product));
-        when(productService.findAll(org.mockito.ArgumentMatchers.any())).thenReturn(page);
+	@Test
+	void testGetProducts() throws Exception {
+		Page<Product> page = new PageImpl<>(List.of(product));
+		when(productService.findAllWithOrders(org.mockito.ArgumentMatchers.any())).thenReturn(page);
 
-        mockMvc.perform(get("/product"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content[0].description").value("Test Product"));
-    }
+		mockMvc.perform(get("/product"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.content[0].description").value("Test Product"));
+	}
 
-    @Test
-    void testGetProductById() throws Exception {
-        when(productService.findById(1L)).thenReturn(Optional.of(product));
+	@Test
+	void testGetProductById() throws Exception {
+		when(productService.findByIdWithOrders(1L)).thenReturn(Optional.of(product));
 
-        mockMvc.perform(get("/product/{id}", 1L))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description").value("Test Product"));
-    }
+		mockMvc.perform(get("/product/{id}", 1L))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.description").value("Test Product"));
+	}
 }

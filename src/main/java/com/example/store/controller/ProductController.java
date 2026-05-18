@@ -31,7 +31,7 @@ public class ProductController {
     @GetMapping
     public Page<ProductDTO> getAllProducts(@PageableDefault(size = 20) Pageable pageable){
         log.debug("getAllProducts called");
-        var page = productService.findAll(pageable);
+        var page = productService.findAllWithOrders(pageable);
         log.info("returning page {} of products with {} items", page.getNumber(), page.getNumberOfElements());
         return page.map(productMapper::productToProductDTO);
     }
@@ -39,7 +39,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public Optional<ProductDTO> getProductById(@PathVariable Long id){
         log.debug("getProductById called id={}", id);
-        return productService.findById(id).map(productMapper::productToProductDTO);
+        return productService.findByIdWithOrders(id).map(productMapper::productToProductDTO);
     }
 
     @PostMapping
