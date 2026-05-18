@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -58,6 +61,17 @@ class CustomerControllerTests {
         when(customerService.findAll(org.mockito.ArgumentMatchers.any(org.springframework.data.domain.Pageable.class))).thenReturn(page);
 
         mockMvc.perform(get("/customer"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("John Doe"));
+    }
+
+    @Test
+    void testGetCustomersByNameSearch() throws Exception {
+        Page<Customer> page = new PageImpl<>(List.of(customer));
+        when(customerService.findByNameSubstring(org.mockito.ArgumentMatchers.anyString(), org.mockito.ArgumentMatchers.any(org.springframework.data.domain.Pageable.class)))
+                .thenReturn(page);
+
+        mockMvc.perform(get("/customer").param("name", "John"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].name").value("John Doe"));
     }

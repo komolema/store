@@ -75,4 +75,14 @@ class OrderControllerTests {
                 .andExpect(jsonPath("$.content[0].description").value("Test Order"))
                 .andExpect(jsonPath("$.content[0].customer.name").value("John Doe"));
     }
+
+    @Test
+    void testGetOrderById() throws Exception {
+        when(orderService.findById(1L)).thenReturn(Optional.of(order));
+
+        mockMvc.perform(get("/order/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.description").value("Test Order"))
+                .andExpect(jsonPath("$.customer.name").value("John Doe"));
+    }
 }
